@@ -1,0 +1,291 @@
+// #include "Huffman.h"
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+void binarywrite (string otp, IOutputStream & compressed) {
+  std :: bitset <8> bit;
+  int len = otp.size();
+  while (len) {
+    int i(0)
+    for (i=0;i<n;++i) {
+      if (otp[i]=='U') {
+        bit[i]=1;
+      } else {
+        bit[i]=0;
+      }
+    }
+    //ты сильно расстроишься если я выключу и мы пойдем спать
+    //я не могу уже читать символы see u later good luck
+    //гудбай епт
+    //до завтра ()сегодня)
+  //просто строку ud надо сделать ее сюда передадим и сделаем красиво
+    // мне делить или это гдето еще ok тоже туплю...сможешь передать пуст.строку и указ на вершину дерева? да
+    //блять как же плавит its ready to go go
+
+  }
+  /*for (int i(0);i<otp.size();++i) {
+    if (otp[i]=='U') {
+      bit[i]=1;
+    } else {
+      bit[i]=0;
+    }
+  }
+  string ans = */
+  //теперь щас буду разбираться как в файл писать
+  // мне надо с потоком работать или сразу писать? тебе тупо в стринг записать надо
+  //такс такс вообщем щас надо разбить строку на ячейки по 8 и все изи будет
+  //щас ебну
+
+}
+//i ended it tak щас я быстро сделаю  ток она на вход принимает строчку из ud так что мне ток ее надо
+template <typename T>
+class Heap
+{
+private:
+    T* arr;
+    size_t size;
+public:
+    Heap(T* other, size_t size_) {
+      size = size_;
+      arr = new T[size_ + 1];
+      for (int i(0); i < size_; ++i)
+          arr[i + 1] = other[i];
+      for (size_t i(size); i >= 1; --i)
+          if (has_left(i))
+              move_down(i);
+    }
+    bool has_left(size_t index) {
+      return index*2<=size;
+    }
+    bool has_right(size_t index) {
+      return index*2+1<=size;
+    }
+    T &left(size_t index) {
+      return arr[2*index];
+    }
+    T &right(size_t index) {
+      return arr[2*index+1];
+    }
+    T &parent(size_t index) {
+      return arr[index/2];
+    }
+    void move_up(size_t index){
+          size_t i = index;
+          while (i > 1 && *(arr[i]) < *(parent(i)))
+          {
+              swap(arr[i], parent(i));
+              i /= 2;
+          }
+    }
+    void move_down(size_t index) {
+      size_t i = index;
+      while (has_left(i) && has_right(i) && *(arr[i]) > min(*(left(i)), *(right(i))))
+      {
+          if (*(left(i)) < *(right(i)))
+          {
+              swap(arr[i], left(i));
+              i *= 2;
+          }
+          else
+          {
+              swap(arr[i], right(i));
+              i = i * 2 + 1;
+          }
+      }
+      if (has_left(i))
+          if (*(arr[i]) > *(left(i)))
+              swap(arr[i], left(i));
+    }
+    T get_min() {
+      T res = arr[1];
+      return res;
+    }
+    void pop_min() {
+      swap(arr[1], arr[size]);
+      size--;
+      move_down(1);
+    }
+    void insert(T number) {
+      size++;
+      arr[size] = number;
+      move_up(size);
+    }
+    size_t Size(){
+      return size;
+    }
+    ~Heap() {
+      delete[] arr;
+    }
+};
+//че мутим? так саша пошла спать теперь можно и покодить XD
+//? че за саша?ok
+//подруга лили
+//такс вообще алгоритм такой  дерево у нас сейчас уже есть по сути надо ща быренько сделать обходик в глубину
+// потом как-то выебнуться и поменять все u так чтобы стало красиво (скорее всего просто все ud поменять на u)
+//потом заняться бинарной записью
+//выбирай что делать
+//кк я тогда сделаю бинарную запись и потом просто твою строку запишем
+//я думаю.....обход найду ща //так блять ебучие биты
+//хз че не так, где-то дичь
+//как у нас выглядит вывод???а если у нас 3 операции а не 10 бит так мы это
+//побитово записывать будем
+//как только я отойду от того что с моим мозгом сделали  я это реализую
+//но у нас может быть 255 d! это не 10 бит  так
+//255 d это 255 бит а там по 2 бита на символ то бишь 256*2 итого 512
+//u максимум 256 будет то бишь да все влезет ok
+//мы не разделяем символы на группы? у нас там
+//256 байт под символы по порядку обхода потом выделяем на поле в котором пишем количество у и д потом удуду(в виде 0 и 1) потом сам код
+//UDD0000000такс u это 1 d это 0
+
+void print_tree(Node *&Tree, string *s)
+{
+
+	if (Tree != nullptr) {
+    if(Tree->left!=nullptr) {
+      s+="D";// D
+      print_tree(Tree->left ,s);
+    }
+		print_tree(Tree->right ,s);
+	}
+  else {
+    s+="U";// U
+  }
+}
+
+class HuffmanTree {
+public:
+    HuffmanTree(int key) : key(key) {}
+
+    HuffmanTree * left = nullptr;
+    HuffmanTree * right = nullptr;
+    int key = 0;
+    char name;
+};
+
+bool operator<(HuffmanTree left, HuffmanTree right) {
+    return left.key < right.key;
+}
+
+bool operator>(HuffmanTree left, HuffmanTree right) {
+    return left.key > right.key;
+}
+
+template <typename T>
+class Heap;
+
+class IInputStream {
+public:
+    // Возвращает false, если поток закончился
+    virtual bool Read(char & value) = 0;
+};
+
+class IOutputStream {
+public:
+    virtual void Write(char value) = 0;
+};
+
+class MyInputStream : public IInputStream {
+public:
+    void setFile(string fileName) {
+        if(_file.is_open()) {
+            _file.close();
+        }
+        _file.open(fileName, std::fstream::in | std::fstream::binary);
+    }
+
+    bool Read(char & value) override {
+        _file >> value;
+        return !_file.eof();
+    }
+
+private:
+    fstream _file;
+};
+
+class MyOutputStream : public IOutputStream {
+public:
+    void setFile(string fileName) {
+        if(_file.is_open()) {
+            _file.close();
+        }
+        _file.open(fileName, std::fstream::out | std::fstream::binary | std::fstream::trunc);
+    }
+
+    void Write(char value) override {
+        _file << value;
+    }
+
+private:
+    fstream _file;
+};
+
+char data[64*1024*1024 - 1024];
+int pointer = 0;
+HuffmanTree * bytes_count[256];
+HuffmanTree * all_bytes[256];
+
+
+// static void copyStream(IInputStream & input, IOutputStream & output) {
+//     char value;
+//     while (input.Read(value)) {
+//         output.Write(value);
+//     }
+// }
+
+HuffmanTree * makeHuffmanTree(HuffmanTree* left, HuffmanTree* right) {
+    HuffmanTree * tmp = new HuffmanTree(left->key + right->key);
+    tmp->left = left;
+    tmp->right = right;
+    return tmp;
+}
+
+void Encode(IInputStream & original, IOutputStream & compressed) {
+    for(int i=0; i<256; i++) {
+        bytes_count[i] = new HuffmanTree(0);
+    }
+    // copyStream(original, compressed);
+    while(original.Read(data[pointer]))
+    {
+        bytes_count[data[pointer]]->key++;
+        bytes_count[data[pointer]]->name = data[pointer];
+        pointer++;
+    }
+    int p(0);
+    for (int i(0); i < 256; ++i)
+    {
+        if (bytes_count[i]->key)
+            all_bytes[p++] = bytes_count[i];
+    }
+    Heap <HuffmanTree*> heap (all_bytes, p);
+    HuffmanTree *left, *right, *next;
+    while(heap.Size() > 1)
+    {
+        left = heap.get_min();
+        heap.pop_min();
+        right = heap.get_min();
+        heap.pop_min();
+        next = makeHuffmanTree(left, right);
+        heap.insert(next);
+    }
+};
+
+void Decode(IInputStream & compressed, IOutputStream & original) {
+    // copyStream(compressed, original);
+};
+
+int main() {
+    MyInputStream is;
+    is.setFile("input.txt");
+    MyOutputStream os;
+    os.setFile("output_archived.txt");
+    Encode(is, os);
+
+    is.setFile("output_archived.txt");
+    os.setFile("output.txt");
+
+    Decode(is, os);
+}
