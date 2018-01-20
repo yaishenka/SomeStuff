@@ -7,8 +7,6 @@ using namespace std;
 
 #define INITIAL_SIZE 8
 
-
-
 class HashAtom {
 public:
     string key;
@@ -16,7 +14,7 @@ public:
     HashAtom (string k) {key=k;};
 };
 
-char HashFunc (HashAtom* el) {
+unsigned char HashFunc (HashAtom* el) {
     const int consp = 46;
     int n = el->key.size();
     int p[n];
@@ -32,10 +30,6 @@ char HashFunc (HashAtom* el) {
         hash += hs[i];
     }
     return hash;
-    
-    
-    
-    
 }
 
 class HashTable {
@@ -43,18 +37,20 @@ class HashTable {
     int capacity = INITIAL_SIZE, size = 0;
     HashAtom ** arr = nullptr;
 public:
-    HashTable()
-    {
-        capacity = INITIAL_SIZE;
-        atoms = new bool[capacity];
-        for (int i(0); i < capacity; ++i) atoms[i] = 0;
+  HashTable() {
+      capacity = INITIAL_SIZE;
+      atoms = new bool[capacity];
+      for (int i(0); i < capacity; ++i) atoms[i] = 0;
         arr = new HashAtom*[capacity];
+      for (int i(0); i < capacity; ++i)
+        arr[i] = nullptr;
     }
-    void grow()
-    {
+    void grow() {
         capacity *= 2;
         bool * newAtoms = new bool[capacity];
         HashAtom ** newArr = new HashAtom*[capacity];
+        for (int i(0); i < capacity; ++i)
+          newArr[i] = nullptr;
         for (int i(0); i < capacity; ++i) newAtoms[i] = 0;
         for(int i=0; i<capacity/2; i++) {
             int newHash = HashFunc(arr[i])%capacity;
@@ -66,62 +62,182 @@ public:
         atoms = newAtoms;
         arr = newArr;
     }
-    
+
     bool contains(HashAtom * x) {
         int hash = HashFunc(x) % capacity;
         int move(1);
-        if (arr[hash] != nullptr) return false;
-        if (arr[hash]->key == x->key) return true; //не дойдет до этого куска
-        while(arr[(hash + move) % capacity]->key != x->key && arr[(hash + move) % capacity] != nullptr)
+        std::cout << "?0 " << x->key << ' ' << hash << " " << (arr[hash] == nullptr) << std::endl;
+        if (arr[hash] == nullptr) return false;
+        std::cout << "?1 " << x->key << ' ' << hash << " " << (arr[hash]->key == x->key && atoms[hash]) << std::endl;
+        if (arr[hash]->key == x->key && atoms[hash]) return true;
+        while (arr[(hash + move) % capacity] != nullptr && !(arr[(hash + move) % capacity]->key == x->key && atoms[(hash + move) % capacity]))
+        //while(arr[(hash + move) % capacity] != nullptr && arr[(hash + move) % capacity]->key != x->key && !atoms[(hash + move) % capacity])
             move *= 2;
+        std::cout << "?2" << x->key << ' ' << hash << " " << (arr[(hash + move) % capacity] != nullptr) << std::endl;
         return (arr[(hash + move) % capacity] != nullptr);
     }
-    
-    void insert(HashAtom * x)
-    {
+
+    void insert(HashAtom * x) {
         if (size >= 3 * capacity / 4) grow();
+        size++;
         int hash = HashFunc(x) % capacity;
-        if (!atoms[hash]){
+        if (!atoms[hash]) {
             arr[hash] = x;
             atoms[hash] = 1;
+            std::cout << "+ " << x->key << ' ' << (hash) << std::endl;
             return;
         }
         int move(1);
         while (atoms[(hash + move) % capacity])
             move *= 2;
+        std::cout << "+ " << x->key << ' ' << ((hash + move) % capacity) << std::endl;
         arr[(hash + move) % capacity] = x;
         atoms[(hash + move) % capacity] = 1;
     }
-    
-    void erase(HashAtom * x)
-    {
+
+    void erase(HashAtom * x) {
+        size--;
         int hash = HashFunc(x) % capacity;
-        atoms[hash] = 0;
+        if (arr[hash]->key == x->key) {
+            atoms[hash] = 0;
+            std::cout << "- " << x->key << ' ' << hash << std::endl;
+        }
+        else {
+            int move(1);
+            while(arr[(hash + move) % capacity]->key != x->key)
+                move *= 2;
+            atoms[(hash + move) % capacity] = 0;
+            std::cout << "- " << x->key << ' ' << ((hash + move) % capacity) << std::endl;
+        }
     }
 };
+
 HashTable table;
+
 int main () {
-    int n;
-    cin >> n;
     string el;
     char command;
-    for (int i(0);i < n;++i) {
-        cin >> command >> el;
-        HashAtom atom (el);
+    while (cin >> command >> el) {
+        //cin >> command >> el;
+        HashAtom* atom = new HashAtom (el);
         switch (command) {
             case '+': {
-                table.insert(&atom);
+              if (table.contains(atom))
+                cout << "FAIL\n";
+              else {
+                table.insert(atom);
+                cout << "OK\n";
+              }
                 break;
             }
             case '-': {
-                table.erase(&atom);
+              if (!table.contains(atom))
+                cout << "FAIL\n";
+              else {
+                table.erase(atom);
+                cout << "OK\n";
+              }
                 break;
             }
             case '?': {
-                cout << table.contains(&atom);
+                if (table.contains(atom))
+                  cout << "OK\n";
+                else
+                  cout << "FAIL\n";
                 break;
             }
             default : break;
         }
     }
+
+/*
++ hello
++ bye
+? bye
++ bye
+- bye
+? bye
+? hello
+*/
+/*
+OK
+OK
+OK
+FAIL
+OK
+FAIL
+OK */
 }
+/*
++ a
++ friend
++ friend
++ in
+- im
++ need
+? frend
++ is
++ a
++ friend
+- friend
+? friend
++ indeed
+
+
+
+
+OK
+OK
+FAIL
+OK
+FAIL
+OK
+FAIL
+OK
+FAIL
+FAIL
+OK
+FAIL
+OK
+*/
+
+/*
+?0 a 1 1
++ a 1
+OK
+?0 friend 0 1
++ friend 0
+OK
+?0 friend 0 0
+?1 friend 0 1
+FAIL
+?0 in 6 1
++ in 6
+OK
+?0 im 0 0
+?1 im 0 0
+?2im 0 0
+FAIL
+?0 need 2 1
++ need 2
+OK
+?0 frend 2 0
+?1 frend 2 0
+?2frend 2 0
+FAIL
+?0 is 4 1
++ is 4
+OK
+?0 a 1 0
+?1 a 1 1
+FAIL
+?0 friend 0 0
+?1 friend 0 1
+FAIL
+?0 friend 0 0
+?1 friend 0 1
+- friend 0
+OK
+?0 friend 0 0
+?1 friend 0 0
+*/
