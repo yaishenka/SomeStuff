@@ -1,56 +1,27 @@
-//prod. yaishenka
+#include <stdio.h>
 #include <iostream>
-#include <string>
 #include <vector>
 #include <algorithm>
-#include <cmath>
+using namespace std;
 
-using namespace std ;
-
-struct chelik {
-    int m,p;
-    chelik() {m=p=0;}
-    chelik(int m1,int p1) {
-        m=m1;
-        p=p1;
-    }
-};
-
-int main () {
-    int om(0),ans(0);
-    chelik base;
-    int m,p;
-    cin >> m >> p;
-    base=chelik(m,p);
-    ans++;
+int main() {
+    vector <long long int> mass;
+    vector <long long int> power;
+    long long m,p;
     while (cin) {
-        cin>>m>>p;
-        if (p>base.p) {
-            if (om+base.m<=p) {
-                om+=base.m;
-                base=chelik(m,p);
-                ans++;
-            } else if (om+m<=base.p) {
-                om+=m;
-                ans++;
-            }
-        } else {
-            if (om+m<=base.p) {
-                om+=m;
-                ans++;
-            }
+        cin >> m >> p;
+        mass.push_back(m);
+        power.push_back(p);
+    }
+    sort (mass.begin(),mass.end());
+    sort (power.begin(),power.end());
+    long long currmass=mass[0];
+    int currh=1;
+    for (int i(1);i<mass.size();++i) {
+        if (power[i]>=currmass) {
+            currmass+=mass[i];
+            currh++;
         }
     }
-    cout << ans << endl;
-    
+    cout << currh << endl;
 }
-
-
-
-
-
-
-
-
-
-
