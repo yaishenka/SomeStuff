@@ -45,10 +45,6 @@ int main() {
         cin >> arr[count];
     }
     insertion_sort(arr, count);
-    for (int i(0);i<count;++i) {
-        cout << arr[i].x1 << " " << arr[i].x2 << endl;
-    }
-    cout<<endl;
     int tmp=arr[0].x2;
     for (int i(1);i<count;++i) {
         if (arr[i].x1>=tmp) {
