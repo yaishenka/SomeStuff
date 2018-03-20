@@ -1,7 +1,7 @@
-# yaishenka prod.
+# yaishenka prod. ![l](https://cdn1.savepice.ru/uploads/2018/3/20/49b28f3bf8b29d8f239fffa0ca06930a-full.jpg)
 This is my personal repository for some stuff. 
 
 Welcome xD
 
 
-![l](https://avatars.mds.yandex.net/get-pdb/401063/733dbdc4-36f4-40c1-ae21-6ff3f33fde54/s800)
+![l](https://cdn1.savepice.ru/uploads/2018/3/20/f22b0e19e41db5409dd825755d2cdb82-full.jpg) 
