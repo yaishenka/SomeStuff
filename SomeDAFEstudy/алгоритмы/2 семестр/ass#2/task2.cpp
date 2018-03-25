@@ -10,8 +10,7 @@
 
 using namespace std;
 
-struct edge
-{
+struct edge {
     int a,b;
     double weight;
     edge (int a1, int b1, double w) {
