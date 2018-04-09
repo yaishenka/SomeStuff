@@ -82,7 +82,7 @@ public:
                 tmpfield[i][j]=field[i][j];
             }
         }
-        swap (tmpfield[zero_in.first][zero_in.second], tmpfield[zero_in.first-1][zero_in.second]);
+        swap (tmpfield[zero_in.first][zero_in.second], tmpfield[zero_in.first+1][zero_in.second]);
         Field p(tmpfield);
         p.parent = this;
         return p;
@@ -96,13 +96,13 @@ public:
                 tmpfield[i][j]=field[i][j];
             }
         }
-        swap (tmpfield[zero_in.first][zero_in.second], tmpfield[zero_in.first+1][zero_in.second]);
+        swap (tmpfield[zero_in.first][zero_in.second], tmpfield[zero_in.first-1][zero_in.second]);
         Field p(tmpfield);
         p.parent = this;
         return p;
     }
 
-   bool Checking () { //ПРОВЕРКА НА НАЛИЧИЕ РЕШЕНИЙ У
+    bool Checking () { //ПРОВЕРКА НА НАЛИЧИЕ РЕШЕНИЙ У
         int inv(0);
         short mas [size*size];
         for (short i = 0; i < size; ++i)
@@ -117,7 +117,7 @@ public:
             return false;
         else
             return true;
-   }
+    }
 
     std::vector<Field> PossibleWays () const {
         std::vector<Field> pw;
@@ -184,20 +184,20 @@ string AStar(Field& p) {
         pif.erase(pif.begin());
         std::vector<Field> pw = current.PossibleWays();
         for (auto child : pw) {
-             std::cout << child;
+            //std::cout << child;
             if (child.manh_d == 0) {
-              string ans;
-              const Field * thiz = &child;
-              while (thiz->parent != nullptr ) {
-                ans += thiz->Parent();
-                thiz = thiz->parent;
-              }
-              return ans;
+                string ans;
+                const Field * thiz = &child;
+                while (thiz->parent != nullptr ) {
+                    ans += thiz->Parent();
+                    thiz = thiz->parent;
+                }
+                return ans;
             } else {
-              if (visited.find(child) == visited.end() && pif.find(child) == pif.end()) {
-                  child.graph_d +=  current.graph_d + 1;
-                  pif.emplace(child);
-              }
+                if (visited.find(child) == visited.end() && pif.find(child) == pif.end()) {
+                    child.graph_d +=  current.graph_d + 1;
+                    pif.emplace(child);
+                }
             }
         }
     }
@@ -210,8 +210,14 @@ int main()
     for (int i = 0; i < size; i++)
         for (int j = 0; j < size; j++)
             cin >> a[i][j];
-
     Field f (a);
-    cout << AStar(f);
+    if (f.Checking()) {
+        string ans = AStar(f);
+        std::reverse (ans.begin(), ans.end());
+        cout << ans.length() << std::endl << ans << std::endl;
+    }
+    else {
+        cout << -1 << std::endl;
+    }
     return 0;
 }
