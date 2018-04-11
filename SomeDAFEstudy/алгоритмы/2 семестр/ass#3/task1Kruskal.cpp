@@ -21,21 +21,51 @@ bool operator > (const Edge& e1, const Edge& e2) {return e1.weight > e2.weight;}
 bool operator != (const Edge& e1, const Edge& e2) {return e1.weight != e2.weight;}
 bool operator == (const Edge& e1, const Edge& e2) {return !operator!=(e1, e2);}
 
-int Prim (std::priority_queue<Edge, std::vector<Edge>, std::greater<Edge> > pq, int n) {
-    std::vector<bool> visited (n, false);
+class DSU {
+private:
+    std::vector<int> parent;
+    std::vector<int> size;
+public:
+    DSU (int n) {
+        parent.resize(n);
+        size.resize(n);
+        for (int i(0); i<n; ++i)
+            make_set(i);
+    }
+    void make_set (int v) {
+        parent[v] = v;
+        size[v] = 1;
+    }
+    int find_set (int v) {
+        if (v == parent[v])
+            return v;
+        return parent[v] = find_set(parent[v]);
+    }
+    void union_sets (int a, int b) {
+        a = find_set (a);
+        b = find_set (b);
+        if (a != b) {
+            if (size[a] < size[b])
+                std::swap (a,b);
+            parent[b] = a;
+            size[a] += size[b];
+        }
+    }
+};
+
+int Kruskal (std::priority_queue<Edge, std::vector<Edge>, std::greater<Edge> > pq, int n) {
+    DSU dsu(n+1);
     Edge current;
     current = pq.top();
     pq.pop();
     int weight = current.weight;
-    visited[current.v1] = true;
-    visited[current.v2] = true;
+    dsu.union_sets(current.v1, current.v2);
     while (!pq.empty()) {
         current = pq.top();
         pq.pop();
-        if ( (visited[current.v1] && !visited[current.v2]) | (!visited[current.v1] && visited[current.v2]) ) {
+        if (dsu.find_set(current.v1) != dsu.find_set(current.v2)) {
+            dsu.union_sets(current.v1, current.v2);
             weight += current.weight;
-            visited[current.v1] = true;
-            visited[current.v2] = true;
         }
     }
     return weight;
@@ -51,7 +81,7 @@ int main () {
         Edge e (v1, v2 ,w);
         pq.push (e);
     }
-    std::cout << Prim(pq, n) << std::endl;
+    std::cout << Kruskal(pq, n) << std::endl;
 }
 /*
  4 4
@@ -59,4 +89,4 @@ int main () {
  2 3 2
  3 4 5
  4 1 4
-*/
+ */
