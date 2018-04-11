@@ -1,0 +1,39 @@
+/Users/18myself/Documents/GitHub/personalrep/personalrep/SomeDAFEstudy/алгоритмы/2 семестр/ass#3/task1Prim.cpp:11:20: error: C++ requires a type specifier for all declarations
+    Edge (int v_1, v_2, w) {
+                   ^
+/Users/18myself/Documents/GitHub/personalrep/personalrep/SomeDAFEstudy/алгоритмы/2 семестр/ass#3/task1Prim.cpp:11:25: error: unknown type name 'w'
+    Edge (int v_1, v_2, w) {
+                        ^
+/Users/18myself/Documents/GitHub/personalrep/personalrep/SomeDAFEstudy/алгоритмы/2 семестр/ass#3/task1Prim.cpp:14:18: error: use of undeclared identifier 'w'
+        weight = w;
+                 ^
+/Users/18myself/Documents/GitHub/personalrep/personalrep/SomeDAFEstudy/алгоритмы/2 семестр/ass#3/task1Prim.cpp:24:5: error: no member named 'std' in namespace 'std'; did you mean simply 'std'?
+    std::std::vector<bool> visited (n, false);
+    ^~~~~~~~
+    std
+/Library/Developer/CommandLineTools/usr/include/c++/v1/set:396:1: note: 'std' declared here
+_LIBCPP_BEGIN_NAMESPACE_STD
+^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/__config:390:47: note: expanded from macro '_LIBCPP_BEGIN_NAMESPACE_STD'
+#define _LIBCPP_BEGIN_NAMESPACE_STD namespace std {inline namespace _LIBCPP_NAMESPACE {
+                                              ^
+/Users/18myself/Documents/GitHub/personalrep/personalrep/SomeDAFEstudy/алгоритмы/2 семестр/ass#3/task1Prim.cpp:26:18: error: no member named 'front' in 'std::__1::priority_queue<Edge, std::__1::vector<Edge, std::__1::allocator<Edge> >, std::__1::less<Edge> >'
+    current = pq.front();
+              ~~ ^
+/Users/18myself/Documents/GitHub/personalrep/personalrep/SomeDAFEstudy/алгоритмы/2 семестр/ass#3/task1Prim.cpp:32:22: error: no member named 'front' in 'std::__1::priority_queue<Edge, std::__1::vector<Edge, std::__1::allocator<Edge> >, std::__1::less<Edge> >'
+        current = pq.front();
+                  ~~ ^
+/Users/18myself/Documents/GitHub/personalrep/personalrep/SomeDAFEstudy/алгоритмы/2 семестр/ass#3/task1Prim.cpp:35:24: error: invalid '+=' at end of declaration; did you mean '='?
+            int weight += current.weight;
+                       ^~
+                       =
+/Users/18myself/Documents/GitHub/personalrep/personalrep/SomeDAFEstudy/алгоритмы/2 семестр/ass#3/task1Prim.cpp:50:18: error: no matching constructor for initialization of 'Edge'
+        pq.push (Edge (v1, v2, w));
+                 ^     ~~~~~~~~~
+/Users/18myself/Documents/GitHub/personalrep/personalrep/SomeDAFEstudy/алгоритмы/2 семестр/ass#3/task1Prim.cpp:7:7: note: candidate constructor (the implicit copy constructor) not viable: requires 1 argument, but 3 were provided
+class Edge {
+      ^
+/Users/18myself/Documents/GitHub/personalrep/personalrep/SomeDAFEstudy/алгоритмы/2 семестр/ass#3/task1Prim.cpp:10:5: note: candidate constructor not viable: requires 0 arguments, but 3 were provided
+    Edge () {}
+    ^
+8 errors generated.
